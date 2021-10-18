@@ -1,0 +1,48 @@
+﻿@model bunga.Models.Bungalo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Bungalo</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Адрес)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Адрес)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Количество_челоек)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Количество_челоек)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Wi_fi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Wi_fi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Сдающий.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Сдающий.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Стоимость_сутки)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Стоимость_сутки)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id_бунгало">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

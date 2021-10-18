@@ -1,0 +1,59 @@
+﻿@model IEnumerable<bunga.Models.Bungalo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Адрес)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Количество_челоек)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wi_fi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Сдающий.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Стоимость_сутки)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Адрес)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Количество_челоек)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wi_fi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Сдающий.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Стоимость_сутки)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id_бунгало">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id_бунгало">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id_бунгало">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
