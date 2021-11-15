@@ -1,0 +1,42 @@
+﻿@model IEnumerable<bunga.Models.Booking>
+
+@{
+    ViewData["Title"] = "Все брони";
+    IEnumerable<bunga.Models.Booking> booking_sell = ViewBag.booking_sell;
+}
+
+<div class="container mt-5">
+    @if (User.IsInRole(RoleNames.Deliver))
+    {
+        <div role="tablist" class="accordion" id="accordion-1">
+            <div class="accordion-item">
+                <h2 role="tab" class="accordion-header">
+                    <button data-toggle="collapse" data-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" class="accordion-button btn btn-dark w-100 collapsed">Покупка Бунгало</button>
+                </h2>
+                <div role="tabpanel" data-parent="#accordion-1" class="accordion-collapse collapse item-1">
+                    <div class="accordion-body">
+
+                        @await Html.PartialAsync("_Bookings", Model)
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item pb-2">
+                <h2 role="tab" class="accordion-header">
+                    <button data-toggle="collapse" data-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" class="accordion-button btn btn-dark w-100 collapsed">Сдача Бунгало</button>
+                </h2>
+                <div role="tabpanel" data-parent="#accordion-1" class="accordion-collapse collapse item-2">
+                    <div class="accordion-body">
+
+                        @await Html.PartialAsync("_Bookings", booking_sell)
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        @await Html.PartialAsync("_Bookings", Model)
+    }
+</div>

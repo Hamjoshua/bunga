@@ -6,8 +6,8 @@ namespace bunga.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropTable(
-            //    name: "Profile");
+            migrationBuilder.DropTable(
+                name: "Profile");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

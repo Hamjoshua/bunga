@@ -1,0 +1,49 @@
+﻿@model bunga.Models.Booking
+
+@{
+    ViewData["Title"] = "Создание брони";
+}
+
+<h1>Бронирование</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Дата начала бронирования</label>
+                <input asp-for="Дата_начала" class="form-control" />
+                <span asp-validation-for="Дата_начала" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Дата окончания бронирования</label>
+                <input asp-for="Дата_конца" class="form-control" />
+                <span asp-validation-for="Дата_конца" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Забронировать" class="btn btn-primary" asp-route-bungalo_id="@ViewBag.bungalo.Id_бунгало" />
+            </div>
+        </form>
+    </div>
+    <div class="col col-md-offset-2">
+        <p class="text-center">Вы хотите забронировать:</p>
+        <div class="card" style="margin: 0;margin-right: 25px;">
+            <img class="card-img-top w-100 d-block m-auto" src="@ViewBag.bungalo.GetImageFirst()" style="height: 15em; max-width: min-content;" />
+            <div class="card-body">
+                <h4 class="card-title">@ViewBag.bungalo.Название</h4>
+                <h6 class="text-muted card-subtitle mb-2">@ViewBag.bungalo.Адрес</h6>
+                <p class="card-text">@ViewBag.bungalo.Описание</p>
+            </div>
+            <div class="card-footer" style="background: gainsboro;">
+                <p style="text-align: left;">Цена: @ViewBag.bungalo.Стоимость_сутки Р за сутки</p>
+                <p style="text-align: left;">Количество человек: @ViewBag.bungalo.Количество_человек</p>
+                <p style="text-align: left;">Wi-fi: @(ViewBag.bungalo.Wi_fi? Html.Raw("Есть"):Html.Raw("Нет"))</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

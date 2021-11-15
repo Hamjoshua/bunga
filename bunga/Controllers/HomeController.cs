@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using bunga;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace bunga.Controllers
 {
@@ -21,9 +22,23 @@ namespace bunga.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(string holder)
+        {
+            var lol = ModelState;
+            string address = HttpContext.Request.Form["address"];
+            string members = HttpContext.Request.Form["members"];
+            string wifi = HttpContext.Request.Form["wifi"];
+            string min_price = HttpContext.Request.Form["min_price"];
+            string max_price = HttpContext.Request.Form["max_price"];
+            return RedirectToAction("Index", "Bungaloes", new { address = address, members=members, wifi=wifi,
+                                                                min_price=min_price, max_price=max_price});
         }
 
         [Authorize(Roles = RoleNames.Buyer)]

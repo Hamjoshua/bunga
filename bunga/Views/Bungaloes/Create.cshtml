@@ -1,36 +1,38 @@
 ﻿@model bunga.Models.Bungalo
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создание бунгало";
 }
 
-<h1>Create</h1>
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row mt-5">
+        <div class="col-md-4">
 
-<h4>Bungalo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Название" class="control-label"></label>
+                <input asp-for="Название" class="form-control" />
+                <span asp-validation-for="Название" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Описание" class="control-label"></label>
+                <textarea asp-for="Описание" class="form-control" style="height: 4em; word-break: break-word;"></textarea>
+                <span asp-validation-for="Описание" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Адрес" class="control-label"></label>
                 <input asp-for="Адрес" class="form-control" />
                 <span asp-validation-for="Адрес" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Количество_челоек" class="control-label"></label>
-                <input asp-for="Количество_челоек" class="form-control" />
-                <span asp-validation-for="Количество_челоек" class="text-danger"></span>
+                <label asp-for="Количество_человек" class="control-label"></label>
+                <input asp-for="Количество_человек" class="form-control" />
+                <span asp-validation-for="Количество_человек" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Wi_fi" /> @Html.DisplayNameFor(model => model.Wi_fi)
                 </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Сдающий.UserName" class="control-label"></label>
-                <input asp-for="Сдающий.UserName" class="form-control" />
-                <span asp-validation-for="Сдающий.UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Стоимость_сутки" class="control-label"></label>
@@ -40,14 +42,35 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </div>
+        <div class="col col-md-6 col-md-offset-2">
+            <button class="btn btn-outline-secondary btn-lg w-100" onclick="addToCarousel()" type="button">+</button>
+            <div data-ride="carousel" data-interval="false" class="carousel slide bg-dark jumbotron" id="carousel-1">
+                <div class="carousel-inner">
+                </div>
+                @*<div><a href="#carousel-1" role="button" data-slide="prev" class="carousel-control-prev">
+                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Пред.</span></a>
+                     <a href="#carousel-1" role="button" data-slide="next" class="carousel-control-next">
+                         <span class="visually-hidden">След.</span>
+                         <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                     </a>
+                </div>*@
+                <ol class="carousel-indicators">
+                </ol>
+            </div>
+        </div>
     </div>
-</div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script type="text/javascript" src="~/js/JavaScript.js"></script>
+<script>
+    addToCarousel();
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

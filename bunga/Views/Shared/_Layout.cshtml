@@ -1,47 +1,55 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - bunga</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/rating.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">bunga</a>
+    <header class="text-white shadow-lg" style="background-color: rgb(185, 122, 87);">
+        <nav class="navbar navbar-light navbar-expand-md">
+            <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div>
+                    <a class="navbar-brand display-1 text-white-50 text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">BUNGA</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navcol-1">
+
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Bookings" asp-action="Index">Бронь</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Bungaloes" asp-action="Index">Смотреть бунгало</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Bungaloes" asp-action="Index">Смотреть бунгало</a>
-                        </li>
+                        @if (User.IsInRole(RoleNames.Deliver))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Bungaloes" asp-action="Create">Выставить бунгало</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <div class="container-fluid">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - bunga - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - bunga - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

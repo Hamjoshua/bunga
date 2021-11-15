@@ -1,0 +1,18 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using bunga.Data
+@using bunga.Models
+@inject ApplicationDbContext _context
+
+@{
+    Bungalo bungalo = Model;
+    int bungalo_id = bungalo.Id_бунгало;
+    var booking = _context.Booking.Include(b => b.Арендатор).Include(b => b.Бунгало)
+        .Where(b => b.Бунгало.Id_бунгало == bungalo_id)
+        .Where(b => b.Арендатор.UserName == User.Identity.Name)
+        .FirstOrDefault();
+}
+
+@if (booking != null)
+{
+    @await Html.PartialAsync("_Rating", bungalo)
+}

@@ -1,59 +1,64 @@
 ﻿@model IEnumerable<bunga.Models.Bungalo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Все бунгало";
 }
 
-<h1>Index</h1>
+<div class="row mt-5">
+    <div class="col-auto">
+        <form method="get" class="d-flex flex-column px-4 py-2 rounded-3 mx-4" style="background-color: rgb(239, 228, 176);">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Адрес)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Количество_челоек)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wi_fi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Сдающий.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Стоимость_сутки)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Адрес)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Количество_челоек)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wi_fi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Сдающий.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Стоимость_сутки)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id_бунгало">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id_бунгало">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id_бунгало">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            <label class="form-label">Адрес</label>
+            <input type="text" name="address" class="form-control" placeholder="ул. Пушкина, д. Колотушкина, 3А" />
+            <label class="form-label">Количество человек</label>
+            <input type="number" name="members" class="form-control" min="0" placeholder="3" />
+            <div class="row">
+                <div class="col">
+                    <label class="col-form-label">Наличие Wi-fi</label>
+                </div>
+                <div class="col d-flex justify-content-center align-items-center">
+                    <input type="checkbox" name="wifi" />
+                </div>
+            </div><label class="form-label">Цена</label>
+            <label class="form-label text-end">От</label>
+            <input type="number" class="form-control" name="min_price" min="0" placeholder="0" />
+            <label class="form-label text-end">До</label>
+            <input type="number" class="form-control" name="max_price" min="0" placeholder="5000" />
+            <button class="btn btn-primary btn-success mt-3" type="submit">Найти</button>
+
+        </form>
+    </div>
+    <div class="col">
+        @foreach (var item in Model)
+        {
+            <div class="border mb-3 me-5 mx-2 rounded row">
+                <div class="col col-md-4">
+                    <a asp-route-id="@item.Id_бунгало" asp-action="Details">
+                        <img class="img-fluid m-auto" src="@item.GetImageFirst()" alt="" />
+                    </a>
+                </div>
+                <div class="col col-md-8">
+                    <div class="card-body">
+                        <h4>@Html.DisplayFor(modelItem => item.Название)</h4>
+                        <h6 class="text-muted mb-2">@Html.DisplayFor(modelItem => item.Адрес)</h6>
+                        <p><br />@Html.DisplayFor(modelItem => item.Описание)<br /><br /></p>
+                        @await Html.PartialAsync("_RatingShow", item) 
+                        @await Html.PartialAsync("_RatingIfBooking", item) 
+                    </div>
+                </div>
+                <div class="col p-0">
+                    <div class="card-footer">
+                        <p>Цена: @Html.DisplayFor(modelItem => item.Стоимость_сутки)</p>
+                        @if (User.Identity.Name == item.Сдающий.UserName)
+                        {
+                            <a class="btn-outline-info btn" asp-action="Edit" asp-route-id="@item.Id_бунгало">Редактировать</a>
+                            <a class="btn-outline-danger btn" asp-action="Delete" asp-route-id="@item.Id_бунгало">Удалить</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

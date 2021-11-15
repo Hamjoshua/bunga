@@ -219,6 +219,34 @@ namespace bunga.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("bunga.Models.Booking", b =>
+                {
+                    b.Property<int>("Id_бронь")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("АрендаторId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("БунгалоId_бунгало")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Дата_конца")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Дата_начала")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id_бронь");
+
+                    b.HasIndex("АрендаторId");
+
+                    b.HasIndex("БунгалоId_бунгало");
+
+                    b.ToTable("Booking");
+                });
+
             modelBuilder.Entity("bunga.Models.Bungalo", b =>
                 {
                     b.Property<int>("Id_бунгало")
@@ -232,8 +260,17 @@ namespace bunga.Migrations
                     b.Property<string>("Адрес")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Количество_челоек")
+                    b.Property<int>("Количество_человек")
                         .HasColumnType("int");
+
+                    b.Property<string>("Название")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Описание")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Оценка")
+                        .HasColumnType("real");
 
                     b.Property<string>("СдающийId")
                         .HasColumnType("nvarchar(450)");
@@ -246,6 +283,31 @@ namespace bunga.Migrations
                     b.HasIndex("СдающийId");
 
                     b.ToTable("Bungalo");
+                });
+
+            modelBuilder.Entity("bunga.Models.Rating", b =>
+                {
+                    b.Property<int>("Id_рейтинг")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("БунгалоId_бунгало")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Оценка")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ПокупательId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id_рейтинг");
+
+                    b.HasIndex("БунгалоId_бунгало");
+
+                    b.HasIndex("ПокупательId");
+
+                    b.ToTable("Rating");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -299,6 +361,21 @@ namespace bunga.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("bunga.Models.Booking", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Арендатор")
+                        .WithMany()
+                        .HasForeignKey("АрендаторId");
+
+                    b.HasOne("bunga.Models.Bungalo", "Бунгало")
+                        .WithMany()
+                        .HasForeignKey("БунгалоId_бунгало");
+
+                    b.Navigation("Арендатор");
+
+                    b.Navigation("Бунгало");
+                });
+
             modelBuilder.Entity("bunga.Models.Bungalo", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Сдающий")
@@ -306,6 +383,21 @@ namespace bunga.Migrations
                         .HasForeignKey("СдающийId");
 
                     b.Navigation("Сдающий");
+                });
+
+            modelBuilder.Entity("bunga.Models.Rating", b =>
+                {
+                    b.HasOne("bunga.Models.Bungalo", "Бунгало")
+                        .WithMany()
+                        .HasForeignKey("БунгалоId_бунгало");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Покупатель")
+                        .WithMany()
+                        .HasForeignKey("ПокупательId");
+
+                    b.Navigation("Бунгало");
+
+                    b.Navigation("Покупатель");
                 });
 #pragma warning restore 612, 618
         }

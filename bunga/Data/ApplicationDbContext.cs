@@ -14,6 +14,7 @@ namespace bunga.Data
         {
         }
         public DbSet<Bungalo> Bungalo { get; set; }
-        //public DbSet<bunga.Models.Profile> Profile { get; set; }        
+        public DbSet<Rating> Rating { get; set; }
+        public DbSet<Booking> Booking { get; set; }
     }
 }

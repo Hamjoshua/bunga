@@ -1,0 +1,30 @@
+﻿@using bunga.Data
+@using Microsoft.EntityFrameworkCore 
+@inject ApplicationDbContext _context 
+@{
+    int bungalo_id = Model.Id_бунгало;
+    var rating = _context.Rating.Include(r => r.Бунгало).Include(r => r.Покупатель)
+        .Where(r => r.Бунгало.Id_бунгало == bungalo_id && r.Покупатель.UserName == User.Identity.Name).FirstOrDefault();
+    var rating_value = rating == null ? 0 : rating.Оценка;
+}
+
+<form class="align-content-center align-items-center d-flex flex-column" id="@Model.Id_бунгало">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="rating-area pl-4">
+            @{
+                string chb_checked;
+            }
+            @for (int i = 5; i >= 1; i--)
+            {
+                chb_checked = i == rating_value ? "checked" : "";
+                <input type="radio" id="star-@i-@Model.Id_бунгало" name="rating_value" value="@i" @chb_checked>
+                <label for="star-@i-@Model.Id_бунгало" title="Поставить @i"></label>
+            }
+            <input type="hidden" name="bungalo_id" value="@Model.Id_бунгало" />
+        </div>
+    </div>
+    <p>Ваша оценка: <strong>@rating_value</strong></p>
+    <button type="submit" class="btn btn-info" asp-controller="Bungaloes" asp-action="Rating">
+        Поставить
+    </button>
+</form>

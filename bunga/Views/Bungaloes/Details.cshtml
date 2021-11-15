@@ -1,48 +1,103 @@
 ﻿@model bunga.Models.Bungalo
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Название;
 }
 
-<h1>Details</h1>
+<div class="container mt-5 mb-5 w-75">
+    <div class="row">
+        <div class="col">
+            <p class="h2">@Html.DisplayFor(model => model.Название)</p>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="text-muted">@Html.DisplayFor(model => model.Адрес)</p>
+        </div>
+        <div class="col">
+            <a class="btn btn-outline-warning text-decoration-none m-auto float-right">
+                Сдающий:
+                @if (Model.Сдающий.UserName == User.Identity.Name)
+                {
+                    @Html.Raw($"Вы ({Model.Сдающий.UserName})")
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Сдающий.UserName)
+                }
+            </a>
+        </div>
+    </div>
+    <div data-bs-ride="carousel" class="carousel slide w-75 m-auto" id="carousel-1">
+        <div class="carousel-inner" style="background: rgb(200, 200, 200);">
+            @{
+                var first = true;
+            }
+            @foreach (var path in Model.GetImages())
+            {
+                <div class="carousel-item @(first? Html.Raw("active"): Html.Raw(""))">
+                    <img class="w-75 d-block m-auto" src="@path" alt="Slide Image" />
+                </div>
+                first = false;
+            }
+        </div>
 
-<div>
-    <h4>Bungalo</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Адрес)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Адрес)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Количество_челоек)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Количество_челоек)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Wi_fi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Wi_fi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Сдающий.UserName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Сдающий.UserName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Стоимость_сутки)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Стоимость_сутки)
-        </dd>
-    </dl>
+        @if (Model.GetImages().Length > 1)
+        {
+            <div>
+                <a href="#carousel-1" role="button" data-slide="prev" class="carousel-control-prev">
+                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Пред.</span>
+                </a>
+                <a href="#carousel-1" role="button" data-slide="next" class="carousel-control-next">
+                    <span class="visually-hidden">След.</span>
+                    <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                </a>
+            </div>
+
+            <ol class="carousel-indicators">
+                @for (int i = 0; i < Model.GetImages().Length; i++)
+                {
+                    <li data-target="#carousel-1" data-slide-to="@i" class="@(i == 0 ? Html.Raw("active") : Html.Raw(""))"></li>
+                }
+            </ol>
+        }
+    </div>
+    <div class="row mt-2">
+        <div class="col border">
+            @await Html.PartialAsync("_RatingShow", Model)
+            @await Html.PartialAsync("_RatingIfBooking", Model)
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col border text-center">
+            <p>Количество человек</p><strong>@Html.DisplayFor(model => model.Количество_человек)</strong>
+        </div>
+        <div class="col border text-center">
+            <p>Wi-fi</p><strong>@(Model.Wi_fi? Html.Raw("Есть"):Html.Raw("Нет"))</strong>
+        </div>
+        <div class="col border text-center">
+            <p>Цена (на сутки)</p><strong>@Html.DisplayFor(model => model.Стоимость_сутки)</strong>
+        </div>
+    </div>
+    @{ 
+        var Id_бунгало = Model.Id_бунгало;
+    }
+
+    @if (Model.Сдающий.UserName != User.Identity.Name)
+    {
+        <a asp-controller="Bookings" asp-action="Create" asp-route-bungalo_id="@Id_бунгало" class="btn btn-primary mt-2 w-100 rounded-0">
+            ЗАБРОНИРОВАТЬ
+        </a>
+    }
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">@Html.DisplayFor(model => model.Описание)</p>
+        </div>
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id_бунгало">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-outline-info" asp-action="Index">Вернуться к списку</a>
 </div>

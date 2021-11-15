@@ -1,0 +1,46 @@
+﻿@model IEnumerable<bunga.Models.Booking>
+
+@foreach (var item in Model)
+{
+    <div class="card mb-3">
+        <a class="text-dark text-decoration-none" asp-controller="Bungaloes" asp-action="Details" asp-route-id="@item.Бунгало.Id_бунгало">
+            <img class="card-img-top w-100 d-block m-auto" src="@item.Бунгало.GetImageFirst()" style="height: 10em; max-width: min-content;" />
+
+            <div class="card-body">
+                <h4 class="card-title" style="transform: rotate(0deg);text-align: center;">@item.Бунгало.Название</h4>
+                <h6 class="text-muted card-subtitle mb-2" style="text-align: center;">@item.Бунгало.Адрес</h6>
+            </div>
+            @await Html.PartialAsync("_RatingShow", item.Бунгало)
+            @if(User.Identity.Name == item.Арендатор.UserName)
+            {
+                @await Html.PartialAsync("_Rating", item.Бунгало)
+            }
+        </a>
+        <div class="card-footer" style="background: gainsboro;">
+            <div class="d-md-flex justify-content-md-start align-items-md-end">
+                <label class="form-label">С</label>
+                <input asp-for="@item.Дата_начала" class="me-4 mx-1 form-control bg-white w-auto" type="date" readonly />
+                <label class="form-label">До</label>
+                <input asp-for="@item.Дата_конца" class="mx-1 form-control bg-white w-auto" type="date" readonly />
+            </div>
+            <div>
+                <label class="form-label form-check-label">Wi-fi:</label>
+                <input asp-for="@item.Бунгало.Wi_fi" type="checkbox" readonly class="form-check-input mx-2" />
+            </div>
+            <p>Количество человек: @item.Бунгало.Количество_человек</p>
+            <p style="text-align: left;">Цена: @item.Бунгало.Стоимость_сутки Р за сутки</p>
+            @if (User.Identity.Name == item.Бунгало.Сдающий.UserName)
+            {
+                <a class="btn btn-outline-warning text-decoration-none m-auto">
+                    Арендатор: @item.Арендатор.UserName
+                </a>
+            }
+            else
+            {
+                <a class="btn btn-outline-warning text-decoration-none m-auto">
+                    Сдающий: @item.Бунгало.Сдающий.UserName
+                </a>
+            }
+        </div>
+    </div>
+}
